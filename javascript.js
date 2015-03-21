@@ -11,7 +11,10 @@ angular.module('PortalApp')
     };
 
     // Initialize input variable
-    $scope.insertValue = { value: "" };
+    $scope.startTime = { value: "Start time => 00:00:00" };
+  	$scope.endTime = { value: "End time => 00:00:00" };
+  	$scope.building = { value: "e.g. MC" };
+  	$scope.day = { value: "(M, T, W, TH, F)" };
   
     $scope.rooms = "Class Number,Building,Room,Start Date,End Date,Weekdays,Start Time,End Time,,,," + " 4068,AL,6,,,M,12:30:00,14:20:00,,,," + " 4068,AL,6,,,T,14:30:00,17:20:00,,,," + " 4068,AL,6,,,F,9:00:00,12:50:00,,,," + " 3496,AL,105,,,M,11:30:00,12:50:00,,,," + " 4044,AL,105,,,M,13:00:00,14:20:00,,,," + " 8100,AL,105,,,M,14:30:00,15:50:00,,,," + " 3742,AL,105,,,T,8:30:00,9:50:00,,,," + " 3928,AL,105,,,T,10:00:00,11:20:00,,,," + " 5401,AL,105,,,T,11:30:00,14:20:00,,,," + " 3212,AL,105,,,T,14:30:00,15:50:00,,,," + " 4247,AL,105,,,T,14:30:00,15:50:00,,,,";
   
@@ -92,10 +95,50 @@ angular.module('PortalApp')
     
     }
     
+    
+    
     $scope.roomsJSON = $scope.csvJSON($scope.rooms); 
-    $scope.actualRoomsJSON = JSON.parse($scope.roomsJSON);
+    $scope.realJSONobject = JSON.parse($scope.roomsJSON);
   	//console.log($scope.actualRoomsJSON[5]['Class Number']);
-
+	console.log($scope.realJSONobject[5]['End Time']);
+  	$scope.getRooms = function(building, day, startTime, endTime) 
+	{
+      var rooms = new Array(25);
+      var y = 0;
+      for( x = 1; x < $scope.realJSONobject.length; x++)
+      {
+        
+        
+          if ($scope.realJSONobject[x]['Building'] ==  building && $scope.realJSONobject[x]['Weekdays'] == day)
+          {
+                console.log('AAAAAA');
+              if($scope.realJSONobject[x]['Start Time'] > endTime && startTime > $scope.realJSONobject[x - 1]['End Time']) 
+              {
+                  rooms[y] = x;
+                console.log('x');
+                  y++;
+              }
+          }
+      }
+      if(y == 0)
+	  {
+		console.log("Sorry no rooms are available during the stated time " +
+				"period in this building");
+	  } 
+      else
+      {
+		var numRooms = y;
+		console.log("The following rooms are free at this time:");
+		y = 0;
+		while(y<numRooms)
+		{
+			console.log( "{0}-{1}", 
+			elements[rooms[y]][1],elements[rooms[y]][2] );
+			y++;
+		}
+	   }
+     }
+    $scope.getRooms("AL", "M", "10:00:00", "11:00:00"); 
     // PORTAL DATA SOURCE EXAMPLE
 
     // Get data for the widget
