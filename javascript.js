@@ -112,15 +112,12 @@ angular.module('PortalApp')
         if ($scope.realJSONobject[x]['Building'] ==  building && 
               $scope.realJSONobject[x]['Weekdays'] == day)
           {
-              	console.log('inside: ' + x);
-            	console.log('bool start time: ' + ($scope.realJSONobject[x]['Start Time'] > endTime));
-            	console.log('bool end time: ' + ($scope.realJSONobject[x]['End Time'] > startTime));
-            
+              	
                 if($scope.realJSONobject[x]['Start Time'] > endTime 
                  && startTime < $scope.realJSONobject[x]['End Time']) 
               	{
                   	rooms[y] = x;
-                  	console.log(x);
+                  	console.log(rooms[y]);
                     y++;
               	}
           }
@@ -140,7 +137,8 @@ angular.module('PortalApp')
 
         while(y<numRooms)
         {
-          console.log( "There are " + (y + 1) + " free rooms!" );
+          console.log(  
+			$scope.realJSONobject[rooms[y]]['Building'] + '-' + $scope.realJSONobject[rooms[y]]['Room'] );
           y++;
         }
 	   }
