@@ -1,3 +1,7 @@
 #cssTest{
 	color:red;
 }
+
+#inlineBlock { 
+    margin:auto;
+}
