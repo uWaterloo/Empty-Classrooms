@@ -101,6 +101,7 @@ angular.module('PortalApp')
     $scope.realJSONobject = JSON.parse($scope.roomsJSON);
   	//console.log($scope.actualRoomsJSON[5]['Class Number']);
 	console.log($scope.realJSONobject[5]['End Time']);
+  
   	$scope.getRooms = function(building, day, startTime, endTime) 
 	{
       var rooms = new Array(25);
@@ -109,35 +110,41 @@ angular.module('PortalApp')
       {
         
         
-          if ($scope.realJSONobject[x]['Building'] ==  building && $scope.realJSONobject[x]['Weekdays'] == day)
+          if ($scope.realJSONobject[x]['Building'] ==  building && 
+              $scope.realJSONobject[x]['Weekdays'] == day)
           {
                 console.log('AAAAAA');
-              if($scope.realJSONobject[x]['Start Time'] > endTime && startTime > $scope.realJSONobject[x - 1]['End Time']) 
+              if($scope.realJSONobject[x]['Start Time'] > endTime 
+                 && startTime > $scope.realJSONobject[x - 1]['End Time']) 
               {
                   rooms[y] = x;
-                console.log('x');
+                  console.log('x');
                   y++;
               }
           }
       }
+      
       if(y == 0)
 	  {
 		console.log("Sorry no rooms are available during the stated time " +
 				"period in this building");
 	  } 
+      
       else
       {
-		var numRooms = y;
-		console.log("The following rooms are free at this time:");
-		y = 0;
-		while(y<numRooms)
-		{
-			console.log( "{0}-{1}", 
-			elements[rooms[y]][1],elements[rooms[y]][2] );
-			y++;
-		}
+      	var numRooms = y;
+
+        console.log("The following rooms are free at this time:");
+        y = 0;
+
+        while(y<numRooms)
+        {
+          console.log( "{0}-{1}", elements[rooms[y]][1],elements[rooms[y]][2] );
+          y++;
+        }
 	   }
-     }
+    }
+    
     $scope.getRooms("AL", "M", "10:00:00", "11:00:00"); 
     // PORTAL DATA SOURCE EXAMPLE
 
