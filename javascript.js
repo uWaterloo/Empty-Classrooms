@@ -100,31 +100,29 @@ angular.module('PortalApp')
     $scope.roomsJSON = $scope.csvJSON($scope.rooms); 
     $scope.realJSONobject = JSON.parse($scope.roomsJSON);
   	//console.log($scope.actualRoomsJSON[5]['Class Number']);
-	console.log($scope.realJSONobject[5]['End Time']);
+	
   
   	$scope.getRooms = function(building, day, startTime, endTime) 
 	{
       var rooms = new Array(25);
       var y = 0;
-      for( x = 1; x < $scope.realJSONobject.length; x++)
-      {
-        
-        
-          if ($scope.realJSONobject[x]['Building'] ==  building && 
+      for( x = 0; x < $scope.realJSONobject.length; x++)
+      {	
+        console.log('outside: ' + x);
+        if ($scope.realJSONobject[x]['Building'] ==  building && 
               $scope.realJSONobject[x]['Weekdays'] == day)
           {
-            	console.log($scope.realJSONobject[x]['Building']);
-            	console.log($scope.realJSONobject[x]['Weekdays']);
-            	console.log($scope.realJSONobject[x]['Start Time']);
-            	console.log($scope.realJSONobject[x - 1]['End Time']);
-            	console.log("\n");
-              if($scope.realJSONobject[x]['Start Time'] > endTime 
-                 && startTime > $scope.realJSONobject[x - 1]['End Time']) 
-              {
-                  rooms[y] = x;
-                  console.log('x');
-                  y++;
-              }
+              	console.log('inside: ' + x);
+            	console.log('bool start time: ' + ($scope.realJSONobject[x]['Start Time'] > endTime));
+            	console.log('bool end time: ' + ($scope.realJSONobject[x]['End Time'] > startTime));
+            
+                if($scope.realJSONobject[x]['Start Time'] > endTime 
+                 && startTime < $scope.realJSONobject[x]['End Time']) 
+              	{
+                  	rooms[y] = x;
+                  	console.log(x);
+                    y++;
+              	}
           }
       }
       
@@ -137,13 +135,12 @@ angular.module('PortalApp')
       else
       {
       	var numRooms = y;
-
         console.log("The following rooms are free at this time:");
         y = 0;
 
         while(y<numRooms)
         {
-          console.log( "{0}-{1}", elements[rooms[y]][1],elements[rooms[y]][2] );
+          console.log( "There are " + (y + 1) + " free rooms!" );
           y++;
         }
 	   }
