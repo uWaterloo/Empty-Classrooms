@@ -12,12 +12,17 @@ angular.module('PortalApp')
 
     // Initialize input variable
     $scope.insertValue = { value: "" };
-
+  
+    $scope.rooms = "Class Number,Building,Room,Start Date,End Date,Weekdays,Start Time,End Time,,,," + " 4068,AL,6,,,M,12:30:00,14:20:00,,,," + " 4068,AL,6,,,T,14:30:00,17:20:00,,,," + " 4068,AL,6,,,F,9:00:00,12:50:00,,,," + " 3496,AL,105,,,M,11:30:00,12:50:00,,,," + " 4044,AL,105,,,M,13:00:00,14:20:00,,,," + " 8100,AL,105,,,M,14:30:00,15:50:00,,,," + " 3742,AL,105,,,T,8:30:00,9:50:00,,,," + " 3928,AL,105,,,T,10:00:00,11:20:00,,,," + " 5401,AL,105,,,T,11:30:00,14:20:00,,,," + " 3212,AL,105,,,T,14:30:00,15:50:00,,,," + " 4247,AL,105,,,T,14:30:00,15:50:00,,,,";
+  
+    //console.log($scope.rooms);
     // Show loading message in the first column
     $scope.portalHelpers.showView('loading.html', 1);
 
     // Show loading animation
     $scope.portalHelpers.toggleLoading(true);
+  
+  	$scope.portalHelpers.showView("something", 1);
 
     // DATABASE EXAMPLE
 
@@ -56,6 +61,40 @@ angular.module('PortalApp')
     $scope.showView3 = function () {
         $scope.portalHelpers.showView('view3.html', 3);
     }
+    
+    $scope.showView4 = function () {
+        $scope.portalHelpers.showView('view4.html', 4);
+    }
+    
+    $scope.csvJSON = function(room){
+ 
+      var lines=room.split(",,,,");
+
+      var result = [];
+
+      var headers=lines[0].split(",");
+
+      for(var i=1;i<lines.length;i++){
+
+          var obj = {};
+          var currentline=lines[i].split(",");
+
+          for(var j=0;j<headers.length;j++){
+              obj[headers[j]] = currentline[j];
+          }
+
+          result.push(obj);
+
+      }
+
+      //return result; //JavaScript object
+      return JSON.stringify(result); //JSON
+    
+    }
+    
+    $scope.roomsJSON = $scope.csvJSON($scope.rooms); 
+    $scope.actualRoomsJSON = JSON.parse($scope.roomsJSON);
+  	//console.log($scope.actualRoomsJSON[5]['Class Number']);
 
     // PORTAL DATA SOURCE EXAMPLE
 
