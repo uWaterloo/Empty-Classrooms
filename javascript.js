@@ -113,7 +113,11 @@ angular.module('PortalApp')
           if ($scope.realJSONobject[x]['Building'] ==  building && 
               $scope.realJSONobject[x]['Weekdays'] == day)
           {
-                console.log('AAAAAA');
+            	console.log($scope.realJSONobject[x]['Building']);
+            	console.log($scope.realJSONobject[x]['Weekdays']);
+            	console.log($scope.realJSONobject[x]['Start Time']);
+            	console.log($scope.realJSONobject[x - 1]['End Time']);
+            	console.log("\n");
               if($scope.realJSONobject[x]['Start Time'] > endTime 
                  && startTime > $scope.realJSONobject[x - 1]['End Time']) 
               {
